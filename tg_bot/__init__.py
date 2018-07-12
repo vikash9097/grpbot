@@ -4,6 +4,8 @@ import sys
 
 import telegram.ext as tg
 
+from telegram.error import Unauthorized, InvalidToken, RetryAfter, TimedOut
+
 # enable logging
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -119,3 +121,51 @@ tg.RegexHandler = CustomRegexHandler
 
 if ALLOW_EXCL:
     tg.CommandHandler = CustomCommandHandler
+
+def _start_polling(self, poll_interval, timeout, read_latency, bootstrap_retries, clean,
+                        allowed_updates):  # pragma: no cover
+# Thread target of thread 'updater'. Runs in background, pulls
+         # updates from Telegram and inserts them in the update queue of the
+         # Dispatcher.
+cur_interval = poll_interval
+         self.logger.debug('Updater thread started')
+ 
+         self._bootstrap(bootstrap_retries, clean=clean, webhook_url='', allowed_updates=None)
+ 
+         while self.running:
+             try:
+                 updates = self.bot.get_updates(
+                     self.last_update_id,
+                     timeout=timeout,
+                     read_latency=read_latency,
+                     allowed_updates=allowed_updates)
+             except RetryAfter as e:
+                 self.logger.info(str(e))
+                 cur_interval = 0.5 + e.retry_after
+            except TimedOut as toe:
+                self.logger.debug('Timed out getting Updates: %s', toe)
+                # If get_updates() failed due to timeout, we should retry asap.
+                cur_interval = 0
+             except TelegramError as te:
+		self.logger.error('Error while getting Updates: %s', te)
+ # Put the error into the update queue and let the Dispatcher
+                 # broadcast it
+                 self.update_queue.put(te)
+ 
+                 cur_interval = self._increase_poll_interval(cur_interval)
+             else:
+                 if not self.running:
+                     if len(updates) > 0:
+                         self.logger.debug('Updates ignored and will be pulled '
+                                           'again on restart.')
+                     break
+ 
+                 if updates:
+                     for update in updates:
+                         self.update_queue.put(update)
+                     self.last_update_id = updates[-1].update_id + 1
+ 
+                 cur_interval = poll_interval
+ if cur_interval:
+                sleep(cur_interval)
+ 
