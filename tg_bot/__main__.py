@@ -18,15 +18,14 @@ from tg_bot.modules.helper_funcs.chat_status import is_user_admin
 from tg_bot.modules.helper_funcs.misc import paginate_modules
 
 PM_START_TEXT = """
-I am The Dark Knight! I'm  maintained by @TheHardGamer.
-I'm built in python3, using the python-telegram-bot library, and am fully opensource - you can explore my Batcave \
-[here](github.com/varunhardgamer/tgbot)!
+I am The Derp Bot! I'm  maintained by @DmitriiKudas.
+I'm built in python3, using the python-telegram-bot library, and am not opensource=)
 
 And I am not a simple Kang/copy paste of Marie, I have additional features some cherry-picked, some written by my owner.
 
 You can find the list of available commands with /help.
 
-If you're enjoying using me, and/or would like to help me capture the 8 assasins, pm my maintainer to help fund/upgrade my VPS!
+If you're enjoying using me, and/or would like to help me capture all derps, pm my maintainer to help fund/upgrade my VPS!
 """
 
 HELP_STRINGS = """
@@ -47,7 +46,7 @@ the things I can help you with.
 And the following:
 """.format(dispatcher.bot.first_name, "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n")
 
-DONATE_STRING = """PM @TheHardGamer for details"""
+DONATE_STRING = """PM @DmitriiKudas for details"""
 
 IMPORTED = {}
 MIGRATEABLE = []
