@@ -439,7 +439,13 @@ def main():
     else:
         LOGGER.info("Using long polling.")
         updater.start_polling(timeout=5, read_latency=2)
-
+ while True:
+            try:
+                self.bot.polling()
+            except Exception as e:
+                sleep = 15
+                _logger.error("Error on polling. Retry in %s secs\n%s", sleep, e)
+                time.sleep(sleep)
     updater.idle()
 
 
