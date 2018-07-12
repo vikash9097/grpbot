@@ -15,4 +15,3 @@ gTTS
 telegram
 zalgo_text
 pynewtonmath
-wikipedia
