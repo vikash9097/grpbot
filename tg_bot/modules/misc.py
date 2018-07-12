@@ -93,6 +93,15 @@ ABUSE_STRINGS = (
 	"GTFO bsdk"
     "CUnt",
     "Ur dad gey bc ",
+    "Chodu",
+    "Gaandu",
+    "Tatti",
+    "Kamina",
+    "Chunni",
+    "Chinaal",
+    "Lund",
+    "Hijra",
+    "Randi"
 )
 
 SLAP_TEMPLATES = (
