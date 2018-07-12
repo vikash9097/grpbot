@@ -440,6 +440,10 @@ def main():
         LOGGER.info("Using long polling.")
         updater.start_polling(timeout=15, read_latency=4)
 
+except Exception as e:
+        logger.error(e)
+        time.sleep(15)
+
     updater.idle()
 
 
