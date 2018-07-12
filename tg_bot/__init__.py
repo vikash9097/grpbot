@@ -129,9 +129,7 @@ def _start_polling(self, poll_interval, timeout, read_latency, bootstrap_retries
          # Dispatcher.
 cur_interval = poll_interval
          self.logger.debug('Updater thread started')
- 
          self._bootstrap(bootstrap_retries, clean=clean, webhook_url='', allowed_updates=None)
- 
          while self.running:
              try:
                  updates = self.bot.get_updates(
@@ -148,10 +146,9 @@ cur_interval = poll_interval
                 cur_interval = 0
              except TelegramError as te:
 		self.logger.error('Error while getting Updates: %s', te)
- # Put the error into the update queue and let the Dispatcher
+# Put the error into the update queue and let the Dispatcher
                  # broadcast it
                  self.update_queue.put(te)
- 
                  cur_interval = self._increase_poll_interval(cur_interval)
              else:
                  if not self.running:
@@ -166,6 +163,6 @@ cur_interval = poll_interval
                      self.last_update_id = updates[-1].update_id + 1
  
                  cur_interval = poll_interval
- if cur_interval:
+if cur_interval:
                 sleep(cur_interval)
  
