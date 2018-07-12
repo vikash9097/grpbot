@@ -438,7 +438,7 @@ def main():
 
     else:
         LOGGER.info("Using long polling.")
-        updater.start_polling(timeout=5, read_latency=2)
+        updater.start_polling(none_stop=True, timeout=123, read_latency=2)
 
     updater.idle()
 
