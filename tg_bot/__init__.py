@@ -119,3 +119,28 @@ tg.RegexHandler = CustomRegexHandler
 
 if ALLOW_EXCL:
     tg.CommandHandler = CustomCommandHandler
+
+class BotPollingThread(threading.Thread):
+    """
+        This is father-thread for telegram bot execution-threads.
+        When bot polling is started it at once spawns several child threads (num=telegram.num_telegram_threads).
+        Then in __threaded_polling() it listens for events from telegram server.
+        If it catches message from server it gives to manage this message to one of executors that calls telegram_listener().
+        Listener do what command requires by it self or may send according command in telegram bus.
+        For every database with token one bot and one bot_polling is created.
+    """
+
+    def __init__(self, bot):
+        threading.Thread.__init__(self, name='BotPollingThread')
+        self.daemon = True
+        self.bot = bot
+
+    def run(self):
+        _logger.info("BotPollingThread started.")
+        while True:
+            try:
+                self.bot.polling()
+            except Exception as e:
+                sleep = 15
+                _logger.error("Error on polling. Retry in %s secs\n%s", sleep, e)
+                time.sleep(sleep)
