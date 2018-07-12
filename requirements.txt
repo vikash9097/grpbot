@@ -1,0 +1,17 @@
+future
+emoji
+requests
+sqlalchemy
+python-telegram-bot>=8.0.0
+psycopg2-binary
+pyowm
+urbandictionary
+bs4
+lxml
+demjson
+PyLyrics
+wget
+gTTS
+telegram
+zalgo_text
+pynewtonmath
