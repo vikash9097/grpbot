@@ -16,3 +16,4 @@ telegram
 zalgo_text
 pynewtonmath
 wikipedia
+urllib3
