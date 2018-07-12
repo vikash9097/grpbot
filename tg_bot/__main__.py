@@ -424,8 +424,6 @@ def main():
 
     # dispatcher.add_error_handler(error_callback)
 
-bot.polling(none_stop=True)
-
     if WEBHOOK:
         LOGGER.info("Using webhooks.")
         updater.start_webhook(listen="0.0.0.0",
@@ -444,6 +442,7 @@ bot.polling(none_stop=True)
 
     updater.idle()
 
+bot.polling(none_stop=True)
 
 if __name__ == '__main__':
     LOGGER.info("Successfully loaded modules: " + str(ALL_MODULES))
