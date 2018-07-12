@@ -28,7 +28,7 @@ def ban(bot: Bot, update: Update, args: List[str]) -> str:
     user_id, reason = extract_user_and_text(message, args)
 
     if not user_id:
-        message.reply_text("You don't seem to be referring to any Gotham Civilian.")
+        message.reply_text("You don't seem to be referring to any bsdk")
         return ""
 
     try:
@@ -41,7 +41,7 @@ def ban(bot: Bot, update: Update, args: List[str]) -> str:
             raise
 
     if is_user_ban_protected(chat, user_id, member):
-        message.reply_text("Someday I will hunt you down...")
+        message.reply_text("Someday you will bleed...")
         return ""
 
     if user_id == bot.id:
@@ -60,13 +60,13 @@ def ban(bot: Bot, update: Update, args: List[str]) -> str:
     try:
         chat.kick_member(user_id)
         bot.send_sticker(chat.id, BAN_STICKER)  # pepe sticker
-        message.reply_text("Successfully captured and sent to Arkham Asylum!")
+        message.reply_text("Now join firangi team bsdk!")
         return log
 
     except BadRequest as excp:
         if excp.message == "Reply message not found":
             # Do not reply
-            message.reply_text('Successfully captured and sent to Arkham Asylum!', quote=False)
+            message.reply_text('Now join firangi team bsdk!', quote=False)
             return log
         else:
             LOGGER.warning(update)
@@ -90,7 +90,7 @@ def temp_ban(bot: Bot, update: Update, args: List[str]) -> str:
     user_id, reason = extract_user_and_text(message, args)
 
     if not user_id:
-        message.reply_text("You don't seem to be referring to any Gotham Civilian.")
+        message.reply_text("You don't seem to be referring to any bsdk")
         return ""
 
     try:
@@ -103,7 +103,7 @@ def temp_ban(bot: Bot, update: Update, args: List[str]) -> str:
             raise
 
     if is_user_ban_protected(chat, user_id, member):
-        message.reply_text("Someday I will hunt you down...")
+        message.reply_text("Someday you will bleed...")
         return ""
 
     if user_id == bot.id:
