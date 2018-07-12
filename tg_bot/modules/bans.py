@@ -28,7 +28,7 @@ def ban(bot: Bot, update: Update, args: List[str]) -> str:
     user_id, reason = extract_user_and_text(message, args)
 
     if not user_id:
-        message.reply_text("You don't seem to be referring to any bsdk")
+        message.reply_text("You don't seem to be referring to anyone")
         return ""
 
     try:
@@ -41,12 +41,12 @@ def ban(bot: Bot, update: Update, args: List[str]) -> str:
             raise
 
     if is_user_ban_protected(chat, user_id, member):
-        message.reply_text("Someday you will bleed...")
+        message.reply_text("Well shit, cannot ban him...")
         return ""
 
     if user_id == bot.id:
 
-        message.effective_message.reply_text("Don't Mess around kid.....")
+        message.effective_message.reply_text("Don't Mess around fag.....")
         return ""
 
     log = "<b>{}:</b>" \
@@ -60,13 +60,13 @@ def ban(bot: Bot, update: Update, args: List[str]) -> str:
     try:
         chat.kick_member(user_id)
         bot.send_sticker(chat.id, BAN_STICKER)  # pepe sticker
-        message.reply_text("Now join firangi team bsdk!")
+        message.reply_text("Sent that bsdk to firangi team!")
         return log
 
     except BadRequest as excp:
         if excp.message == "Reply message not found":
             # Do not reply
-            message.reply_text('Now join firangi team bsdk!', quote=False)
+            message.reply_text('Sent that bsdk to firangi team!', quote=False)
             return log
         else:
             LOGGER.warning(update)

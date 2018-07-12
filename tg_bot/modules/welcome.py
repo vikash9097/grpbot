@@ -86,7 +86,7 @@ def new_member(bot: Bot, update: Update):
         for new_mem in new_members:
             # Give the owner a special welcome
             if new_mem.id == OWNER_ID:
-                update.effective_message.reply_text("The Batman Has Arrived!")
+                update.effective_message.reply_text("Is that god?!")
                 continue
 
             # Don't welcome yourself
@@ -153,7 +153,7 @@ def left_member(bot: Bot, update: Update):
 
             # Give the owner a special goodbye
             if left_mem.id == OWNER_ID:
-                update.effective_message.reply_text("RIP Master")
+                update.effective_message.reply_text("god left us...")
                 return
 
             # if media goodbye, use appropriate function for it
