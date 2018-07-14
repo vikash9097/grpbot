@@ -60,13 +60,13 @@ def ban(bot: Bot, update: Update, args: List[str]) -> str:
     try:
         chat.kick_member(user_id)
         bot.send_sticker(chat.id, BAN_STICKER)  # pepe sticker
-        message.reply_text("Sent that bsdk to firangi team!")
+        message.reply_text("banned that ass!")
         return log
 
     except BadRequest as excp:
         if excp.message == "Reply message not found":
             # Do not reply
-            message.reply_text('Sent that bsdk to firangi team!', quote=False)
+            message.reply_text('banned that ass!', quote=False)
             return log
         else:
             LOGGER.warning(update)
