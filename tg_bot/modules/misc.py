@@ -331,6 +331,7 @@ HIT = (
 GMAPS_LOC = "https://maps.googleapis.com/maps/api/geocode/json"
 GMAPS_TIME = "https://maps.googleapis.com/maps/api/timezone/json"
 
+@run_async
 def roll(bot: Bot, update: Update):
     update.message.reply_text(random.choice(range(1, 7)))
 	
@@ -384,16 +385,19 @@ def abuse(bot: Bot, update: Update):
     reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
     reply_text(random.choice(ABUSE_STRINGS))
 	
+@run_async
 def shrug(bot: Bot, update: Update):
     # reply to correct message
     reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
     reply_text("¯\_(ツ)_/¯")	
 	
+@run_async
 def bluetext(bot: Bot, update: Update):
     # reply to correct message
     reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
     reply_text("BLUE TEXT\n MUST CLICK\n I AM A STUPID ANIMAL THAT IS ATTRACTED TO COLORS")		
 
+@run_async
 def rlg(bot: Bot, update: Update):
     # reply to correct message
     eyes = random.choice(EYES)
@@ -648,6 +652,7 @@ __help__ = """
  - /abuse : Abuses the cunt
  - /tts <any text> : Converts text to speech
  - /bluetext : check urself :V
+ - /zal <any text> : zalgofy! your text
  Lyrics Plugin will take some moar time to come up.
 """
 
@@ -663,7 +668,8 @@ SLAP_HANDLER = DisableAbleCommandHandler("slap", slap, pass_args=True)
 INFO_HANDLER = DisableAbleCommandHandler("info", info, pass_args=True)
 WEATHER_HANDLER = DisableAbleCommandHandler("weather" , get_weather, pass_args=True)
 PING_HANDLER = DisableAbleCommandHandler("ping", ping)
-ECHO_HANDLER = CommandHandler("echo", echo, filters=Filters.user(OWNER_ID))
+ABUSE_HANDLER = DisableAbleCommandHandler("abuse", abuse)
+ECHO_HANDLER = CommandHandler("echo", echo, filters=CustomFilters.sudo_filter)
 MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help, filters=Filters.private)
 
 STATS_HANDLER = CommandHandler("stats", stats, filters=CustomFilters.sudo_filter)
@@ -684,7 +690,7 @@ dispatcher.add_handler(CommandHandler('ud', ud, pass_args=True))
 dispatcher.add_handler(CommandHandler('shrug', shrug))
 dispatcher.add_handler(CommandHandler('table', table))
 dispatcher.add_handler(CommandHandler('decide', decide))
-dispatcher.add_handler(CommandHandler('abuse', abuse))
+dispatcher.add_handler(ABUSE_HANDLER)
 dispatcher.add_handler(CommandHandler('toss', toss))
 dispatcher.add_handler(CommandHandler('bluetext', bluetext))
 dispatcher.add_handler(CommandHandler('rlg', rlg))
