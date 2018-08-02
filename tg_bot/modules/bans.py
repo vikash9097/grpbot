@@ -264,7 +264,8 @@ def banme(bot: Bot, update: Update):
     if is_user_admin(update.effective_chat, user_id):
         update.effective_message.reply_text("I wish I could... but you're an admin.")
         return
-     res = update.effective_chat.kick_member(user_id)  
+     
+    res = update.effective_chat.kick_member(user_id)    
     if res:
         update.effective_message.reply_text("No problem, banned.")
         log = "<b>{}:</b>" \
