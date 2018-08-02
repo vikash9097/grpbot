@@ -28,7 +28,7 @@ RBAN_ERRORS = {
     "Channel_private",
     "Not in the chat"
 }
- RUNBAN_ERRORS = {
+RUNBAN_ERRORS = {
     "User is an administrator of the chat",
     "Chat not found",
     "Not enough rights to restrict/unrestrict chat member",
