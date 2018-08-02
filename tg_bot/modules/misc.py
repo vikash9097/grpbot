@@ -626,7 +626,7 @@ def stickerid(bot: Bot, update: Update):
         update.effective_message.reply_text("Hello " + "[{}](tg://user?id={})".format(msg.from_user.first_name,
                                             msg.from_user.id) + ", Please reply to sticker message to get id sticker",
                                             parse_mode=ParseMode.MARKDOWN)
- @run_async
+@run_async
 def getsticker(bot: Bot, update: Update):
     msg = update.effective_message
     chat_id = update.effective_chat.id
