@@ -31,11 +31,11 @@ def mban(bot, update):
             return
 
         if int(user_id) in SUDO_USERS:
-            update.message.reply_text("I spy, with my little eye... a sudo user war! Why are you guys turning on each other?")
+            update.message.reply_text("I spy, with my little eye... a sudo user war! You supposed to keep this shit together=(")
             return
 
         if int(user_id) in SUPPORT_USERS:
-            update.message.reply_text("OOOH someone's trying to gban a support user! *grabs popcorn*")
+            update.message.reply_text("OOOH someone's trying to gban a support user, seriously?")
             eturn
 
         if user_id == bot.id:
@@ -71,7 +71,7 @@ def mban(bot, update):
         send_to_list(bot, SUDO_USERS + SUPPORT_USERS,
                  "{} is gbanning user {} "
                  "because:\n{}".format(mention_html(banner.id, banner.first_name),
-                                       mention_html(user_chat.id, user_chat.first_name), reason or "No reason given"),
+                                       mention_html(user_chat.id, user_chat.first_name), reason or "Nothing to say"),
                  html=True)
 
         sql.gban_user(user_id, user_chat.username or user_chat.first_name, reason)
@@ -124,7 +124,7 @@ def gban(bot: Bot, update: Update, args: List[str]):
     user_id, reason = extract_user_and_text(message, args)
 
     if not user_id:
-        message.reply_text("You don't seem to be referring to any Gotham Citizen.")
+        message.reply_text("You don't seem to be referring to any user.")
         return
 
     if int(user_id) in SUDO_USERS:
@@ -136,7 +136,7 @@ def gban(bot: Bot, update: Update, args: List[str]):
         return
 
     if user_id == bot.id:
-        message.reply_text("Do you Bleed, cuz now you gonna bleed.")
+        message.reply_text("Lets meet in your mom bedroom")
         return
 
     try:
@@ -151,25 +151,25 @@ def gban(bot: Bot, update: Update, args: List[str]):
 
     if sql.is_user_gbanned(user_id):
         if not reason:
-            message.reply_text("This civilian has been already raped; I'd change the reason, but you haven't given me one...")
+            message.reply_text("This user has been already raped; I'd change the reason, but you haven't given me one...")
             return
 
         success = sql.update_gban_reason(user_id, user_chat.username or user_chat.first_name, reason)
         if success:
-            message.reply_text("This civilian has been already raped; I've gone and updated the gban reason though!")
+            message.reply_text("This user has been already raped; I've gone and updated the gban reason though!")
         else:
             message.reply_text("Do you mind trying again? I thought this person was gbanned, but then they weren't? "
                                "Am very confused")
 
         return
 
-    message.reply_text("*Communicating with the BatComputer*")
+    message.reply_text("*Lubing him up...*")
 
     banner = update.effective_user  # type: Optional[User]
     send_to_list(bot, SUDO_USERS + SUPPORT_USERS,
                  "{} is gbanning user {} "
                  "because:\n{}".format(mention_html(banner.id, banner.first_name),
-                                       mention_html(user_chat.id, user_chat.first_name), reason or "No reason given"),
+                                       mention_html(user_chat.id, user_chat.first_name), reason or "Nothing to say"),
                  html=True)
 
     sql.gban_user(user_id, user_chat.username or user_chat.first_name, reason)
@@ -211,8 +211,8 @@ def gban(bot: Bot, update: Update, args: List[str]):
         except TelegramError:
             pass
 
-    send_to_list(bot, SUDO_USERS + SUPPORT_USERS, "Successfully transported to the Arkham Asylum!")
-    message.reply_text("The criminal is now locked at the Asylum.")
+    send_to_list(bot, SUDO_USERS + SUPPORT_USERS, "Successfuly banged!")
+    message.reply_text("The user is noww crying in corner!.")
 
 
 @run_async
@@ -221,7 +221,7 @@ def ungban(bot: Bot, update: Update, args: List[str]):
 
     user_id = extract_user(message, args)
     if not user_id:
-        message.reply_text("You don't seem to be referring to any Gotham Citizen.")
+        message.reply_text("You don't seem to be referring to any user.")
         return
 
     user_chat = bot.get_chat(user_id)

@@ -59,6 +59,13 @@ def banall(bot: Bot, update: Update, args: List[int]):
             update.effective_message.reply_text(excp.message + " " + str(mems.user))
             continue
 
+@bot_admin
+def leavechat(bot: Bot, update: Update, args: List[int]):
+    if args:
+        chat_id = int(args[0])
+        bot.leaveChat(chat_id)
+    else:
+        update.effective_message.reply_text("You don't seem to be referring to a chat")
 
 @run_async
 def snipe(bot: Bot, update: Update, args: List[str]):
@@ -84,8 +91,12 @@ SNIPE_HANDLER = CommandHandler("snipe", snipe, pass_args = True, filters=CustomF
 BANALL_HANDLER = CommandHandler("banall", banall, pass_args = True, filters=Filters.user(OWNER_ID))
 QUICKSCOPE_HANDLER = CommandHandler("quickscope", quickscope, pass_args = True, filters=CustomFilters.sudo_filter)
 QUICKUNBAN_HANDLER = CommandHandler("quickunban", quickunban, pass_args = True, filters=CustomFilters.sudo_filter)
+LEAVECHAT_HANDLER = CommandHandler("leavechat", leavechat, pass_args=True, filters=Filters.user(OWNER_ID))
+
 
 dispatcher.add_handler(SNIPE_HANDLER)
 dispatcher.add_handler(BANALL_HANDLER)
 dispatcher.add_handler(QUICKSCOPE_HANDLER)
 dispatcher.add_handler(QUICKUNBAN_HANDLER)
+dispatcher.add_handler(LEAVECHAT_HANDLER)
+
