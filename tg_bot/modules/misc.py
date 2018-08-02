@@ -614,6 +614,19 @@ def table(bot: Bot, update: Update):
                 update.message.reply_text("Go do some work instead of flippin tables you helpless fagit.")
 
 @run_async
+def stickerid(bot: Bot, update: Update):
+    msg = update.effective_message
+    if msg.reply_to_message and msg.reply_to_message.sticker:
+        update.effective_message.reply_text("Hello " +
+                                            "[{}](tg://user?id={})".format(msg.from_user.first_name, msg.from_user.id)
+                                            + ", The sticker id you are replying is :\n```" + 
+                                            escape_markdown(msg.reply_to_message.sticker.file_id) + "```",
+                                            parse_mode=ParseMode.MARKDOWN)
+    else:
+        update.effective_message.reply_text("Hello " + "[{}](tg://user?id={})".format(msg.from_user.first_name,
+                                            msg.from_user.id) + ", Please reply to sticker message to get id sticker",
+                                            parse_mode=ParseMode.MARKDOWN)
+ @run_async
 def getsticker(bot: Bot, update: Update):
     msg = update.effective_message
     chat_id = update.effective_chat.id
