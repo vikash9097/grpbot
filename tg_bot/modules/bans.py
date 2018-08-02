@@ -396,17 +396,21 @@ def rban(bot: Bot, update: Update, args: List[str]):
 @bot_admin
 def runban(bot: Bot, update: Update, args: List[str]):
     message = update.effective_message
-     if not args:
+
+    if not args:
         message.reply_text("You don't seem to be referring to a chat/user.")
         return
-     user_id, chat_id = extract_user_and_text(message, args)
-     if not user_id:
+
+    user_id, chat_id = extract_user_and_text(message, args)
+
+    if not user_id:
         message.reply_text("You don't seem to be referring to a user.")
         return
     elif not chat_id:
         message.reply_text("You don't seem to be referring to a chat.")
         return
-     try:
+
+    try:
         chat = bot.get_chat(chat_id.split()[0])
     except BadRequest as excp:
         if excp.message == "Chat not found":
@@ -414,13 +418,16 @@ def runban(bot: Bot, update: Update, args: List[str]):
             return
         else:
             raise
-     if chat.type == 'private':
+
+    if chat.type == 'private':
         message.reply_text("I'm sorry, but that's a private chat!")
         return
-     if not is_bot_admin(chat, bot.id) or not chat.get_member(bot.id).can_restrict_members:
+
+    if not is_bot_admin(chat, bot.id) or not chat.get_member(bot.id).can_restrict_members:
         message.reply_text("I can't unrestrict people there! Make sure I'm admin and can unban users.")
         return
-     try:
+
+    try:
         member = chat.get_member(user_id)
     except BadRequest as excp:
         if excp.message == "User not found":
@@ -432,10 +439,12 @@ def runban(bot: Bot, update: Update, args: List[str]):
     if is_user_in_chat(chat, user_id):
         message.reply_text("Why are you trying to remotely unban someone that's already in that chat?")
         return
-     if user_id == bot.id:
+
+    if user_id == bot.id:
         message.reply_text("I'm not gonna UNBAN myself, I'm an admin there!")
         return
-     try:
+
+    try:
         chat.unban_member(user_id)
         message.reply_text("Yep, this user can join that chat!")
     except BadRequest as excp:
