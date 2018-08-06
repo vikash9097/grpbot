@@ -613,42 +613,6 @@ def table(bot: Bot, update: Update):
             else:
                 update.message.reply_text("Go do some work instead of flippin tables you helpless fagit.")
 
-@run_async
-def stickerid(bot: Bot, update: Update):
-    msg = update.effective_message
-    if msg.reply_to_message and msg.reply_to_message.sticker:
-        update.effective_message.reply_text("Hello " +
-                                            "[{}](tg://user?id={})".format(msg.from_user.first_name, msg.from_user.id)
-                                            + ", The sticker id you are replying is :\n```" + 
-                                            escape_markdown(msg.reply_to_message.sticker.file_id) + "```",
-                                            parse_mode=ParseMode.MARKDOWN)
-    else:
-        update.effective_message.reply_text("Hello " + "[{}](tg://user?id={})".format(msg.from_user.first_name,
-                                            msg.from_user.id) + ", Please reply to sticker message to get id sticker",
-                                            parse_mode=ParseMode.MARKDOWN)
-@run_async
-def getsticker(bot: Bot, update: Update):
-    msg = update.effective_message
-    chat_id = update.effective_chat.id
-    if msg.reply_to_message and msg.reply_to_message.sticker:
-        bot.sendChatAction(chat_id, "typing")
-        update.effective_message.reply_text("Hello " + "[{}](tg://user?id={})".format(msg.from_user.first_name,
-                                            msg.from_user.id) + ", Please check the file you requested below."
-                                            "\nPlease use this feature wisely!",
-                                            parse_mode=ParseMode.MARKDOWN)
-        bot.sendChatAction(chat_id, "upload_document")
-        file_id = msg.reply_to_message.sticker.file_id
-        newFile = bot.get_file(file_id)
-        newFile.download('sticker.png')
-        bot.sendDocument(chat_id, document=open('sticker.png', 'rb'))
-        bot.sendChatAction(chat_id, "upload_photo")
-        bot.send_photo(chat_id, photo=open('sticker.png', 'rb'))
-        
-    else:
-        bot.sendChatAction(chat_id, "typing")
-        update.effective_message.reply_text("Hello " + "[{}](tg://user?id={})".format(msg.from_user.first_name,
-                                            msg.from_user.id) + ", Please reply to sticker message to get sticker image",
-                                            parse_mode=ParseMode.MARKDOWN)
 def decide(bot: Bot, update: Update):
         r = randint(1, 100)
         if r <= 65:
@@ -707,8 +671,6 @@ PING_HANDLER = DisableAbleCommandHandler("ping", ping)
 ABUSE_HANDLER = DisableAbleCommandHandler("abuse", abuse)
 ECHO_HANDLER = CommandHandler("echo", echo, filters=CustomFilters.sudo_filter)
 MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help, filters=Filters.private)
-STICKERID_HANDLER = DisableAbleCommandHandler("stickerid", stickerid)
-GETSTICKER_HANDLER = DisableAbleCommandHandler("getsticker", getsticker)
 STATS_HANDLER = CommandHandler("stats", stats, filters=CustomFilters.sudo_filter)
 
 dispatcher.add_handler(ID_HANDLER)
@@ -726,8 +688,6 @@ dispatcher.add_handler(WEATHER_HANDLER)
 dispatcher.add_handler(CommandHandler('ud', ud, pass_args=True))
 dispatcher.add_handler(CommandHandler('shrug', shrug))
 dispatcher.add_handler(CommandHandler('table', table))
-dispatcher.add_handler(STICKERID_HANDLER)
-dispatcher.add_handler(GETSTICKER_HANDLER)
 dispatcher.add_handler(CommandHandler('decide', decide))
 dispatcher.add_handler(ABUSE_HANDLER)
 dispatcher.add_handler(CommandHandler('toss', toss))
