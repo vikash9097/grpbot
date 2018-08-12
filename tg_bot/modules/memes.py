@@ -113,8 +113,10 @@ def deepfryer(bot: Bot, update: Update):
     photodata = data[len(data) - 1].get_file().download_as_bytearray()
     image = Image.open(io.BytesIO(photodata))
      # the following needs to be executed async (because dumb lib)
-    global loop
+        loop = asyncio.new_event_loop()
     loop.run_until_complete(process_deepfry(image, message.reply_to_message, bot))
+    loop.close()
+
  async def process_deepfry(image: Image, reply: Message, bot: Bot):
     # DEEPFRY IT
     image = await deepfry(
@@ -125,8 +127,9 @@ def deepfryer(bot: Bot, update: Update):
      bio = BytesIO()
     bio.name = 'image.jpeg'
     image.save(bio, 'JPEG')
-    bio.seek(0)
+
      # send it back
+    bio.seek(0)
     reply.reply_photo(bio)
 
 __help__ = "many memz"  # no help string
