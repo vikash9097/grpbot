@@ -1,7 +1,10 @@
-import random, re
+import random, re, os, io, asyncio
+from PIL import Image
+from io import BytesIO
 from telegram import Message, Update, Bot, User
 from telegram import MessageEntity
 from telegram.ext import Filters, MessageHandler, run_async
+from deeppyer import deepfry
 
 from tg_bot import dispatcher
 from tg_bot.modules.disable import DisableAbleCommandHandler
@@ -30,6 +33,10 @@ def copypasta(bot: Bot, update: Update):
                 reply_text += c.lower()
     reply_text += random.choice(emojis)
     message.reply_to_message.reply_text(reply_text)
+
+# only use one event loop for the stupid face recognition
+loop = asyncio.new_event_loop()
+asyncio.set_event_loop(loop)
 
 # D A N K module by @deletescape
 
@@ -91,6 +98,37 @@ def owo(bot: Bot, update: Update):
     reply_text += ' ' + random.choice(faces)
     message.reply_to_message.reply_text(reply_text)
 
+@run_async
+def deepfryer(bot: Bot, update: Update):
+    message = update.effective_message
+    if message.reply_to_message:
+        data = message.reply_to_message.photo
+    else:
+        data = []
+     # check if message does contain a photo and cancel when not
+    if not data:
+        message.reply_text("What am I supposed to do with this?!")
+        return
+     # download last photo (highres) as byte array
+    photodata = data[len(data) - 1].get_file().download_as_bytearray()
+    image = Image.open(io.BytesIO(photodata))
+     # the following needs to be executed async (because dumb lib)
+    global loop
+    loop.run_until_complete(process_deepfry(image, message.reply_to_message, bot))
+ async def process_deepfry(image: Image, reply: Message, bot: Bot):
+    # DEEPFRY IT
+    image = await deepfry(
+        img=image,
+        token=os.getenv('DEEPFRY_TOKEN', ''),
+        url_base='westeurope'
+    )
+     bio = BytesIO()
+    bio.name = 'image.jpeg'
+    image.save(bio, 'JPEG')
+    bio.seek(0)
+     # send it back
+    reply.reply_photo(bio)
+
 __help__ = "many memz"  # no help string
 
 __mod_name__ = "Memes"
@@ -106,6 +144,8 @@ CRYMOJI_ALIAS_HANDLER = DisableAbleCommandHandler("😭", crymoji)
 BMOJI_HANDLER = DisableAbleCommandHandler("🅱️", bmoji)
 BMOJI_ALIAS_HANDLER = DisableAbleCommandHandler("bmoji", bmoji)
 OWO_HANDLER = DisableAbleCommandHandler("owo", owo)
+DEEPFRY_HANDLER = DisableAbleCommandHandler("deepfry", deepfryer, admin_ok=True)
+
 
 dispatcher.add_handler(COPYPASTA_HANDLER)
 dispatcher.add_handler(COPYPASTA_ALIAS_HANDLER)
@@ -118,3 +158,5 @@ dispatcher.add_handler(CRYMOJI_ALIAS_HANDLER)
 dispatcher.add_handler(BMOJI_HANDLER)
 dispatcher.add_handler(BMOJI_ALIAS_HANDLER)
 dispatcher.add_handler(OWO_HANDLER)
+dispatcher.add_handler(DEEPFRY_HANDLER) 
+
