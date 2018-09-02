@@ -117,7 +117,7 @@ def deepfryer(bot: Bot, update: Update):
     loop.run_until_complete(process_deepfry(image, message.reply_to_message, bot))
     loop.close()
 
- async def process_deepfry(image: Image, reply: Message, bot: Bot):
+async def process_deepfry(image: Image, reply: Message, bot: Bot):
     # DEEPFRY IT
     image = await deepfry(
         img=image,
