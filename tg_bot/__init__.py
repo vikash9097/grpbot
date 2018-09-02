@@ -101,8 +101,6 @@ else:
     ALLOW_EXCL = Config.ALLOW_EXCL
     STRICT_GMUTE = Config.STRICT_GMUTE
 
-    DEEPFRY_TOKEN = Config.DEEPFRY_TOKEN
-
 SUDO_USERS.add(OWNER_ID)
 
 updater = tg.Updater(TOKEN, workers=WORKERS)
