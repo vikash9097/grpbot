@@ -6,7 +6,7 @@ from telegram import MessageEntity
 from telegram.ext import Filters, MessageHandler, run_async
 from deeppyer import deepfry
 
-from tg_bot import dispatcher, DEEPFRY_TOKEN
+from tg_bot import dispatcher
 from tg_bot.modules.disable import DisableAbleCommandHandler
 
 re
@@ -121,7 +121,7 @@ async def process_deepfry(image: Image, reply: Message, bot: Bot):
     # DEEPFRY IT
     image = await deepfry(
         img=image,
-        token=DEEPFRY_TOKEN,
+        token=os.getenv('DEEPFRY_TOKEN', ''),
         url_base='westeurope'
     )
     bio = BytesIO()
