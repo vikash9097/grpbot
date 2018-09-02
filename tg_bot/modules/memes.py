@@ -1,4 +1,4 @@
-import random, re, os, io, asyncio
+import random, re, os, string, io, asyncio
 from PIL import Image
 from io import BytesIO
 from telegram import Message, Update, Bot, User
@@ -6,7 +6,7 @@ from telegram import MessageEntity
 from telegram.ext import Filters, MessageHandler, run_async
 from deeppyer import deepfry
 
-from tg_bot import dispatcher
+from tg_bot import dispatcher, DEEPFRY_TOKEN
 from tg_bot.modules.disable import DisableAbleCommandHandler
 
 re
@@ -121,7 +121,7 @@ def deepfryer(bot: Bot, update: Update):
     # DEEPFRY IT
     image = await deepfry(
         img=image,
-        token=os.getenv('DEEPFRY_TOKEN', ''),
+        token=DEEPFRY_TOKEN,
         url_base='westeurope'
     )
      bio = BytesIO()
@@ -161,5 +161,4 @@ dispatcher.add_handler(CRYMOJI_ALIAS_HANDLER)
 dispatcher.add_handler(BMOJI_HANDLER)
 dispatcher.add_handler(BMOJI_ALIAS_HANDLER)
 dispatcher.add_handler(OWO_HANDLER)
-dispatcher.add_handler(DEEPFRY_HANDLER) 
-
+dispatcher.add_handler(DEEPFRY_HANDLER)
