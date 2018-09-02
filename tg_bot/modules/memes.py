@@ -124,7 +124,7 @@ async def process_deepfry(image: Image, reply: Message, bot: Bot):
         token=DEEPFRY_TOKEN,
         url_base='westeurope'
     )
-     bio = BytesIO()
+    bio = BytesIO()
     bio.name = 'image.jpeg'
     image.save(bio, 'JPEG')
 
