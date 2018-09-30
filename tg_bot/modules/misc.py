@@ -8,6 +8,8 @@ from datetime import datetime
 from typing import Optional, List
 import pyowm
 import time
+from geopy.geocoders import Nominatim
+from telegram import Location
 import requests
 from telegram import Message, Chat, Update, Bot, MessageEntity
 from telegram import ParseMode
@@ -551,6 +553,24 @@ def echo(bot: Bot, update: Update):
         message.reply_text(args[1], quote=False)
     message.delete()
 
+def gps(bot: Bot, update: Update, args: List[str]):
+    message = update.effective_message
+    if len(args) == 0:
+        update.effective_message.reply_text("That was a funny joke, but no really, put in a location idiot")
+    try:
+        geolocator = Nominatim(user_agent="SkittBot")
+        location = " ".join(args)
+        geoloc = geolocator.geocode(location)  
+        chat_id = update.effective_chat.id
+        lon = geoloc.longitude
+        lat = geoloc.latitude
+        the_loc = Location(lon, lat) 
+        gm = "https://www.google.com/maps/search/{},{}".format(lat,lon)
+        bot.send_location(chat_id, location=the_loc)
+        update.message.reply_text("Open with: [Google Maps]({})".format(gm), parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
+    except AttributeError:
+        update.message.reply_text("I can't find that")
+
 def ping(bot: Bot, update: Update):
     start_time = time.time()
     bot.send_message(update.effective_chat.id, "Starting ping testing now!")
@@ -653,7 +673,6 @@ __help__ = """
  - /tts <any text> : Converts text to speech
  - /bluetext : check urself :V
  - /zal <any text> : zalgofy! your text
- Lyrics Plugin will take some moar time to come up.
 """
 
 __mod_name__ = "Misc"
@@ -669,6 +688,7 @@ INFO_HANDLER = DisableAbleCommandHandler("info", info, pass_args=True)
 WEATHER_HANDLER = DisableAbleCommandHandler("weather" , get_weather, pass_args=True)
 PING_HANDLER = DisableAbleCommandHandler("ping", ping)
 ABUSE_HANDLER = DisableAbleCommandHandler("abuse", abuse)
+GPS_HANDLER = DisableAbleCommandHandler("gps", gps, pass_args=True)
 ECHO_HANDLER = CommandHandler("echo", echo, filters=CustomFilters.sudo_filter)
 MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help, filters=Filters.private)
 STATS_HANDLER = CommandHandler("stats", stats, filters=CustomFilters.sudo_filter)
@@ -690,6 +710,7 @@ dispatcher.add_handler(CommandHandler('shrug', shrug))
 dispatcher.add_handler(CommandHandler('table', table))
 dispatcher.add_handler(CommandHandler('decide', decide))
 dispatcher.add_handler(ABUSE_HANDLER)
+dispatcher.add_handler(GPS_HANDLER)
 dispatcher.add_handler(CommandHandler('toss', toss))
 dispatcher.add_handler(CommandHandler('bluetext', bluetext))
 dispatcher.add_handler(CommandHandler('rlg', rlg))
