@@ -16,7 +16,7 @@ telegram
 zalgo_text
 pynewtonmath
 wikipedia
-urllib3
+urllib3>=1.23
 aiohttp>=2.2.5
 Pillow>=4.2.0
 gsearch
