@@ -18,7 +18,7 @@ from tg_bot.modules.helper_funcs.chat_status import is_user_admin
 from tg_bot.modules.helper_funcs.misc import paginate_modules
 
 PM_START_TEXT = """
-I am The Derp Bot! I'm  maintained by @DmitriiKudas.
+I am The Derp Bot! I'm  maintained by some random guy.
 I'm built in python3, using the python-telegram-bot library, and am not opensource=)
 
 And I am not a simple Kang/copy paste of Marie, I have additional features some cherry-picked, some written by my owner.
