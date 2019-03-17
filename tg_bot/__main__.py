@@ -19,7 +19,7 @@ from tg_bot.modules.helper_funcs.misc import paginate_modules
 
 PM_START_TEXT = """
 I am The Derp Bot! I'm  maintained by some random guy.
-I'm built in python3, using the python-telegram-bot library, and am not opensource=)
+I'm built in python3, using the python-telegram-bot library, and am opensource=) https://gitlab.com/ZyxxeZ/bot
 
 And I am not a simple Kang/copy paste of Marie, I have additional features some cherry-picked, some written by my owner.
 
@@ -46,7 +46,7 @@ the things I can help you with.
 And the following:
 """.format(dispatcher.bot.first_name, "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n")
 
-DONATE_STRING = """PM @DmitriiKudas for details"""
+DONATE_STRING = """FREE"""
 
 IMPORTED = {}
 MIGRATEABLE = []
